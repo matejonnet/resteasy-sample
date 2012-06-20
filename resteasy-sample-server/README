@@ -1,4 +1,5 @@
 Rest urls:
 http://localhost:8080/resteasy-sample-server/services/serverInfo/timeStamp
-http://localhost:8080/resteasy-sample-server/services/persons/all
-http://localhost:8080/resteasy-sample-server/services/persons/mock-insert
+http://localhost:8080/resteasy-sample-server/services/message
+http://localhost:8080/resteasy-sample-server/services/message/gt/2
+http://localhost:8080/resteasy-sample-server/services/message/mock-insert

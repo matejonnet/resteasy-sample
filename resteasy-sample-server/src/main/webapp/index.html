@@ -1,0 +1,80 @@
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">    
+
+   var lastIdReceived = 0;
+   
+   $(document).ready(function() {
+	   $.ajaxSetup({
+	       dataType: "json",
+	       error   : function (jqXHR, textStatus, errorThrown) {
+	    	     //log to firebug console
+	           if (typeof console == 'object' && typeof console.log == 'function') {
+	               console.log(jqXHR);
+	               console.log(textStatus);
+	               console.log(errorThrown);
+	           }
+	       }
+	   });
+
+	   getAll();
+	   scheduleAutoCheck();
+   });
+
+   function getAll() {
+	   $.ajax({
+		   url: 'http://localhost:8080/resteasy-sample-server/services/message/',
+		   type: 'GET',
+		   //data: 'ID=1&Name=John&Age=10', // or $('#myform').serializeArray()
+         success: function(aMessages) { received(aMessages); },
+      });
+   }
+
+   function checkUpdates() {
+	   $.ajax({
+		   url: 'http://localhost:8080/resteasy-sample-server/services/message/gt/' + lastIdReceived,
+		   type: 'GET',
+		   success: function(aMessages) { receivedUpdate(aMessages); },
+		});
+   }
+
+   function receivedUpdate(aMessages) {
+	   if (aMessages.length > 0) {
+	      alert("You have new messages!");
+	      received(aMessages)
+		}
+   }
+
+	function received(aMessages) {
+		for (var i = 0; i < aMessages.length; i++) {
+			message = aMessages[i];
+			addMessage(message);
+			lastIdReceived = message.id;
+		}
+	}
+
+	function scheduleAutoCheck() {
+		window.setInterval( 
+			function() {checkUpdates();},
+			10000 //every ten sec
+		);
+	}
+
+	function addMessage(message) {
+		$('#messages').append('<p><b>' + message.title + '</b><br />' + message.body + '</p>');
+	}
+	
+</script>
+</head>
+<body>
+	Wait for new messages, or click
+	<a href="javascript:checkUpdates();">refresh</a> to check now.
+	
+	<h1>messages</h1>
+	<div id="messages">
+	
+	</div>
+
+</body>
+</html>

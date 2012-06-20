@@ -8,11 +8,11 @@ import javax.persistence.Id;
  * @author Matej Lazar
  */
 @Entity
-public class Person {
+public class Message {
 
     private long id;
-    private String name;
-    private String surname;
+    private String title;
+    private String body;
 
     @Id
     @GeneratedValue
@@ -24,24 +24,24 @@ public class Person {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getBody() {
+        return body;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     @Override
     public String toString() {
-        return id + " " + name + " " + surname;
+        return id + " " + getTitle() + ":" + getBody();
     }
 }
